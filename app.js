@@ -29,7 +29,7 @@ app.use('/polls', polls);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -41,8 +41,13 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  if(res.status(404)) {
+    res.render('404');
+  }
+  else { 
+    res.status(err.status || 500);
+    res.render('error');
+  }
 });
 
 module.exports = app;
